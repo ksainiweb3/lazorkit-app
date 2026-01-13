@@ -28,7 +28,7 @@ const Dashboard = () => {
     const tx = new Transaction().add(
       SystemProgram.transfer({
         fromPubkey: from,
-        toPubkey: to,
+        toPubkey: from,
         lamports: 1_000,
       })
     );
