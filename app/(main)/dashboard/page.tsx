@@ -24,19 +24,12 @@ const Dashboard = () => {
     if (!smartWalletPubkey) return;
 
     const from = new PublicKey(smartWalletPubkey);
-    const to = from; // self for demo (safe)
 
-    const fromAta = await getAssociatedTokenAddress(USDC_MINT, from);
-    const toAta = await getAssociatedTokenAddress(USDC_MINT, to);
-
-    const ix = createTransferCheckedInstruction(
-      fromAta,
-      USDC_MINT,
-      toAta,
-      from,
-      100_000,
-      6
-    );
+    const ix = SystemProgram.transfer({
+      fromPubkey: from,
+      toPubkey: from,
+      lamports: 1_000,
+    });
 
     const sig = await signAndSendTransaction({
       instructions: [ix],
