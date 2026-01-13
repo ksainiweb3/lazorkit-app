@@ -1,5 +1,9 @@
 "use client";
 
+import {
+  getAssociatedTokenAddress,
+  createTransferCheckedInstruction,
+} from "@solana/spl-token";
 import { useWallet } from "@lazorkit/wallet";
 import {
   Connection,
@@ -12,31 +16,37 @@ const connection = new Connection("https://api.devnet.solana.com");
 const Dashboard = () => {
   const { signAndSendTransaction, smartWalletPubkey, isSigning } = useWallet();
 
-  const sendSol = async () => {
-    console.log("Secure:", window.isSecureContext);
+  const USDC_MINT = new PublicKey(
+    "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+  );
 
-    if (!smartWalletPubkey) {
-      alert("Wallet not connected");
-      return;
-    }
+  const sendUsdc = async () => {
+    if (!smartWalletPubkey) return;
+
     const from = new PublicKey(smartWalletPubkey);
-    const to = new Keypair();
+    const to = from; // self for demo (safe)
 
-    const instruction = SystemProgram.transfer({
-      fromPubkey: from,
-      toPubkey: to.publicKey,
-      lamports: 0.01 * LAMPORTS_PER_SOL,
+    const fromAta = await getAssociatedTokenAddress(USDC_MINT, from);
+    const toAta = await getAssociatedTokenAddress(USDC_MINT, to);
+
+    const ix = createTransferCheckedInstruction(
+      fromAta,
+      USDC_MINT,
+      toAta,
+      from,
+      100_000,
+      6
+    );
+
+    const sig = await signAndSendTransaction({
+      instructions: [ix],
     });
 
-    console.log("Instruction " + instruction);
-    const signature = await signAndSendTransaction({
-      instructions: [instruction],
-    });
-    console.log("Transaction confirmed:", signature);
+    console.log("USDC tx confirmed:", sig);
   };
 
   return (
-    <button onClick={async () => await sendSol()} disabled={isSigning}>
+    <button onClick={sendUsdc} disabled={isSigning}>
       {isSigning ? "Processing..." : "Pay 0.01 SOL"}
     </button>
   );
