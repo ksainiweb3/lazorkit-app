@@ -5,12 +5,10 @@ import {
   Connection,
   PublicKey,
   SystemProgram,
-  Transaction,
   LAMPORTS_PER_SOL,
+  Keypair,
 } from "@solana/web3.js";
-
-const connection = new Connection("https://api.devnet.solana.com");
-
+const connection = new Connection("https:://api.devnet.solana.com");
 const Dashboard = () => {
   const { signAndSendTransaction, smartWalletPubkey, isSigning } = useWallet();
 
@@ -22,12 +20,15 @@ const Dashboard = () => {
       return;
     }
     const from = new PublicKey(smartWalletPubkey);
+    const to = new Keypair();
+
     const instruction = SystemProgram.transfer({
       fromPubkey: from,
-      toPubkey: from,
+      toPubkey: to.publicKey,
       lamports: 0.01 * LAMPORTS_PER_SOL,
     });
 
+    console.log("Instruction " + instruction);
     const signature = await signAndSendTransaction({
       instructions: [instruction],
     });
