@@ -21,31 +21,22 @@ const Dashboard = () => {
       alert("Wallet not connected");
       return;
     }
-
     const from = new PublicKey(smartWalletPubkey);
-    const to = new PublicKey("28fjzWdBmJ83stkto9yGitXFhuqHGYqxZxPPciLDKzzL");
+    const instruction = SystemProgram.transfer({
+      fromPubkey: from,
+      toPubkey: from,
+      lamports: 0.01 * LAMPORTS_PER_SOL,
+    });
 
-    const tx = new Transaction().add(
-      SystemProgram.transfer({
-        fromPubkey: from,
-        toPubkey: from,
-        lamports: 1_000,
-      })
-    );
-
-    tx.feePayer = from;
-
-    const { blockhash } = await connection.getLatestBlockhash("finalized");
-    tx.recentBlockhash = blockhash;
-
-    const sig = await signAndSendTransaction(tx);
-
-    console.log("Transaction signature:", sig);
+    const signature = await signAndSendTransaction({
+      instructions: [instruction],
+    });
+    console.log("Transaction confirmed:", signature);
   };
 
   return (
     <button onClick={async () => await sendSol()} disabled={isSigning}>
-      {isSigning ? "Processing..." : "Pay 0.001 SOL"}
+      {isSigning ? "Processing..." : "Pay 0.01 SOL"}
     </button>
   );
 };
