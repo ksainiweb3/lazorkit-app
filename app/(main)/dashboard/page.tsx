@@ -29,7 +29,7 @@ const Dashboard = () => {
       SystemProgram.transfer({
         fromPubkey: from,
         toPubkey: to,
-        lamports: 1_000_000_000,
+        lamports: 1_000,
       })
     );
 
