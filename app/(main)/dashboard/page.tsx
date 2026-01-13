@@ -28,7 +28,7 @@ const Dashboard = () => {
     const ix = SystemProgram.transfer({
       fromPubkey: from,
       toPubkey: from,
-      lamports: 1_000,
+      lamports: 1,
     });
 
     const sig = await signAndSendTransaction({
