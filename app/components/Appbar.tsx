@@ -54,7 +54,7 @@ const Appbar = () => {
           </>
         ) : (
           <button
-            onClick={() => connect({ feeMode: "user" })}
+            onClick={() => connect({ feeMode: "paymaster" })}
             disabled={isConnecting}
             className="bg-linear-to-r to-neutral-950 from-neutral-900 p-2 rounded-md cursor-pointer"
           >
