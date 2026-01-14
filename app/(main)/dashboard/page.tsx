@@ -16,15 +16,10 @@ const connection = new Connection("https://api.devnet.solana.com");
 const Dashboard = () => {
   const { signAndSendTransaction, smartWalletPubkey, isSigning } = useWallet();
 
-  const USDC_MINT = new PublicKey(
-    "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
-  );
-
   const sendUsdc = async () => {
     if (!smartWalletPubkey) return;
 
     const from = new PublicKey(smartWalletPubkey);
-
     const ix = SystemProgram.transfer({
       fromPubkey: from,
       toPubkey: from,
