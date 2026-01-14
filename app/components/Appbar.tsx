@@ -1,7 +1,7 @@
 "use client";
 
 import { useWallet } from "@lazorkit/wallet";
-import { PublicKey } from "@solana/web3.js";
+import { Connection, PublicKey } from "@solana/web3.js";
 import {
   getAccount,
   getAssociatedTokenAddress,
@@ -9,9 +9,8 @@ import {
 } from "@solana/spl-token";
 import { useEffect, useState } from "react";
 import { MINT } from "../api/mint/route";
-import { connection } from "../(main)/dashboard/page";
 import { LoaderIcon } from "react-hot-toast";
-
+const connection = new Connection("https://api.devnet.solana.com");
 export default function Appbar() {
   const { connect, disconnect, isConnected, isConnecting, wallet } =
     useWallet();
