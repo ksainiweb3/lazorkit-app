@@ -47,6 +47,9 @@ export default function Dashboard() {
 
     const sig = await signAndSendTransaction({
       instructions: [ix],
+      transactionOptions: {
+        feeToken: undefined,
+      },
     });
 
     console.log("PLAY spent:", sig);

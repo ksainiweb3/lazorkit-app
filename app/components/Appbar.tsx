@@ -101,7 +101,7 @@ export default function Appbar() {
           </>
         ) : (
           <button
-            onClick={() => connect({ feeMode: "paymaster" })}
+            onClick={() => connect({ feeMode: "user" })}
             disabled={isConnecting}
             className="bg-neutral-900 p-2 rounded-md"
           >
